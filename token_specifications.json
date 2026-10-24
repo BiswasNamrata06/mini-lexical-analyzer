@@ -1,0 +1,137 @@
+{
+  "description": "Token specification for a small C-like language. Edit freely: add rules, change patterns, add keywords. Rules are tried in order; the longest match wins and ties go to the earlier rule.",
+  "keywords": [
+    "auto",
+    "break",
+    "case",
+    "char",
+    "const",
+    "continue",
+    "default",
+    "do",
+    "double",
+    "else",
+    "enum",
+    "extern",
+    "float",
+    "for",
+    "goto",
+    "if",
+    "inline",
+    "int",
+    "long",
+    "register",
+    "restrict",
+    "return",
+    "short",
+    "signed",
+    "sizeof",
+    "static",
+    "struct",
+    "switch",
+    "typedef",
+    "union",
+    "unsigned",
+    "void",
+    "volatile",
+    "while"
+  ],
+  "tokens": [
+    {
+      "name": "ARROW", 
+      "pattern": "->"
+    },
+    {
+      "name": "WHITESPACE",
+      "pattern": "\\s+",
+      "description": "spaces, tabs and newlines",
+      "hidden": true
+    },
+    {
+      "name": "SINGLE_LINE_COMMENT",
+      "pattern": "//[^\\n]*",
+      "description": "// comment up to end of line",
+      "hidden": true
+    },
+    {
+      "name": "MULTI_LINE_COMMENT",
+      "pattern": "/\\*(?:(?!\\*/)[\\s\\S])*\\*/",
+      "description": "/* ... */ comment, may span lines",
+      "hidden": true
+    },
+    {
+      "name": "UNTERMINATED_COMMENT",
+      "pattern": "/\\*(?:(?!\\*/)[\\s\\S])*\\Z",
+      "description": "/* with no closing */",
+      "error": "Unterminated multi-line comment"
+    },
+    {
+      "name": "PREPROCESSOR_DIRECTIVE",
+      "pattern": "#[^\\n]*",
+      "description": "#include / #define line"
+    },
+    {
+      "name": "STRING_LITERAL",
+      "pattern": "\"(?:[^\"\\\\\\n]|\\\\.)*\"",
+      "description": "text in double quotes, with escapes"
+    },
+    {
+      "name": "UNTERMINATED_STRING",
+      "pattern": "\"(?:[^\"\\\\\\n]|\\\\.)*\\\\?",
+      "description": "opening quote but no closing quote on the line",
+      "error": "Unterminated string literal"
+    },
+    {
+      "name": "CHAR_LITERAL",
+      "pattern": "'(?:[^'\\\\\\n]|\\\\.)'",
+      "description": "exactly one character in single quotes"
+    },
+    {
+      "name": "MALFORMED_CHAR_LITERAL",
+      "pattern": "'(?:[^'\\\\\\n]|\\\\.)*'?",
+      "description": "empty, too long or unterminated character literal",
+      "error": "Malformed character literal"
+    },
+    {
+      "name": "FLOAT_NUMBER",
+      "pattern": "(?:\\d+\\.\\d*|\\.\\d+)(?:[eE][+-]?\\d+)?|\\d+[eE][+-]?\\d+",
+      "description": "decimal number such as 2.5, .5, 1e3"
+    },
+    {
+      "name": "NUMBER",
+      "pattern": "0[xX][0-9a-fA-F]+|\\d+",
+      "description": "integer: decimal or hexadecimal"
+    },
+    {
+      "name": "IDENTIFIER",
+      "pattern": "[A-Za-z_][A-Za-z0-9_]*",
+      "description": "names; keywords are separated out afterwards",
+      "keyword_check": true
+    },
+    {
+      "name": "ASSIGNMENT_OPERATOR",
+      "pattern": "\\+=|-=|\\*=|/=|%=|=",
+      "description": "= += -= *= /= %="
+    },
+    {
+      "name": "RELATIONAL_OPERATOR",
+      "pattern": "==|!=|<=|>=|<|>",
+      "description": "== != <= >= < >"
+    },
+    {
+      "name": "LOGICAL_OPERATOR",
+      "pattern": "&&|\\|\\||!",
+      "description": "&& || !"
+    },
+    {
+      "name": "ARITHMETIC_OPERATOR",
+      "pattern": "\\+\\+|--|[+\\-*/%]",
+      "description": "+ - * / % ++ --"
+    },
+    {
+      "name": "DELIMITER",
+      "pattern": "[(){}\\[\\];,.:?]",
+      "description": "brackets, semicolon, comma, dot, colon, ?"
+    }
+  ]
+}
